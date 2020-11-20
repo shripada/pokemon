@@ -1,25 +1,43 @@
 import './App.css';
 
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+
+import ErrorBoundary from './ErrorBoundary'
+import PokemonViewer from './components/PokemonViewer/PokemonViewer'
+import SearchField from './components/SearchField/SearchField'
+import {fetchAPokemon} from './api';
 
 function App() {
+   
+  const [searchTerm, setSearchTerm] = useState("")
+  const [pokemon, setPokemon] = useState(undefined)
+  const [status, setStatus] = useState("idle");
+  
+  useEffect(() => {
+    
+    if(searchTerm === ""){
+      setStatus('idle')
+      return;
+    }
+    
+    setStatus('loading');
+    fetchAPokemon(searchTerm).then((pokemon)=>{
+      setPokemon(pokemon)
+      setStatus('resolved')
+    }).catch((error)=>{
+      //process the error
+      setStatus('error')
+    })
+
+  }, [searchTerm])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        
+          <SearchField onSearchClicked={(search) => setSearchTerm(search) }/>
+          <ErrorBoundary>
+          <PokemonViewer pokemonData={pokemon} status={status}/>
+        </ErrorBoundary>
     </div>
   );
 }

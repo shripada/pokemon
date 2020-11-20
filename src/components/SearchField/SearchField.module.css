@@ -1,0 +1,16 @@
+.SearchField {
+   display:flex;
+   padding: 3px;
+}
+
+.SearchInput{
+  padding: 4px;
+  border-radius: 10px;
+  outline: none;
+  border-width: 2px;
+}
+
+.SearchButton{
+  margin-left: 14px;
+}
+
