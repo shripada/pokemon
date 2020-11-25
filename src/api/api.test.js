@@ -25,6 +25,7 @@ it('fetchPokemon test', async () => {
 });
 
 it('fetchPokemon test - non existent character', async () => {
+    console.log(process.env.NODE_ENV);
     jest.setTimeout(300000);
     const nonExistent = 'dittoss';
     expect.assertions(1);
