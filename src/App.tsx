@@ -1,11 +1,15 @@
 import './App.css';
 
-import React, {useEffect, useState} from 'react';
+import React, {Suspense, useEffect, useRef, useState} from 'react';
 
 import ErrorBoundary from './ErrorBoundary'
 import PokemonViewer from './components/PokemonViewer'
 import SearchField from './components/SearchField/SearchField'
 import {fetchAPokemon} from './api/api';
+
+//let PokemonViewer:React.ReactNode = null; 
+
+//const PokemonViewer = React.lazy(() => import('./components/PokemonViewer'));
 
 function App() {
 
@@ -32,13 +36,23 @@ function App() {
     })
 
   }, [searchTerm])
+  
+  // const mounted = useRef(false);
+  // useEffect(() => {
+  //    if(mounted && mounted.current === false && searchTerm !== ''){
+  //       PokemonViewer = React.lazy(() => import('./components/PokemonViewer'));
+  //       mounted.current = false; 
+  //    }     
+  // }, [searchTerm])
 
   return (
     <div className="App">
         
           <SearchField onSearchClicked={(search) => setSearchTerm(search) }/>
           <ErrorBoundary>
-          <PokemonViewer pokemonData={pokemon} status={status}/>
+        
+            <PokemonViewer pokemonData={pokemon} status={status}/>
+    
         </ErrorBoundary>
     </div>
   );

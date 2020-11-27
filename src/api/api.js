@@ -1,5 +1,5 @@
-import ditto from './mocks/ditto.json';
 import environment from '../environments';
+// import { fetchPokemon as fetchPokemonJSON } from './mocks/api.mock';
 import lget from 'lodash/get';
 
 const BASE_URL =
@@ -26,12 +26,16 @@ async function fetchAPokemon(pokemonName) {
     if (environment.shouldMock) {
         //load the json file and return its content
         if (pokemonName === 'ditto') {
-            return new Promise((resolve) => resolve(ditto));
+            return import('./mocks/api.mock').then((mockJson) => {
+                return mockJson.fetchPokemon(pokemonName);
+            });
         }
-    }
 
-    const pokeMonURL = `${lget(environment.api.baseURL)}pokemon/${pokemonName}`;
-    return await fetchPokemonURL(pokeMonURL);
+        throw new Error('The requested pockemon is not found in the mock folder');
+    } else {
+        const pokeMonURL = `${lget(environment.api.baseURL)}pokemon/${pokemonName}`;
+        return await fetchPokemonURL(pokeMonURL);
+    }
 }
 
 export { fetchPokemonURL, fetchAPokemon };
