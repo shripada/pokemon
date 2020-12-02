@@ -1,9 +1,9 @@
 import './App.css';
 
+import PokemonViewer, {Status} from './components/PokemonViewer'
 import React, {Suspense, useEffect, useRef, useState} from 'react';
 
 import ErrorBoundary from './ErrorBoundary'
-import PokemonViewer from './components/PokemonViewer'
 import SearchField from './components/SearchField/SearchField'
 import {fetchAPokemon} from './api/api';
 
@@ -17,7 +17,7 @@ function App() {
    
   const [searchTerm, setSearchTerm] = useState("")
   const [pokemon, setPokemon] = useState(undefined)
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState("idle1");
   
   useEffect(() => {
     
@@ -44,14 +44,14 @@ function App() {
   //       mounted.current = false; 
   //    }     
   // }, [searchTerm])
-
+  
   return (
     <div className="App">
         
           <SearchField onSearchClicked={(search) => setSearchTerm(search) }/>
           <ErrorBoundary>
         
-            <PokemonViewer pokemonData={pokemon} status={status}/>
+            <PokemonViewer pokemonData={pokemon} status={status as Status}/>
     
         </ErrorBoundary>
     </div>
